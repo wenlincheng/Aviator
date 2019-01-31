@@ -37,7 +37,6 @@ export default class Main{
     // 由于使用多个不同的摄像机 这里关闭自动清除
     this.renderer.autoClear = false
 
-    //this.Game = new Game(this.renderer)
     this.AviatorGame = new AviatorGame(this.renderer)
 
     this.UI = new UI(this.renderer)
@@ -71,7 +70,7 @@ export default class Main{
     // 渲染游戏场景
     this.AviatorGame.render()
     // 渲染UI
-    this.UI.render()
+    //this.UI.render()
 
     window.requestAnimationFrame(this.loop.bind(this), canvas)
   }
