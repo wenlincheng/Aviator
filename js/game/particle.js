@@ -1,6 +1,6 @@
 /**
  * Created by Cheng on 2019/1/30
- * 粒子效果
+ * 撞击后粒子效果
  */
 
 let THREE = require('../../third/three.min')
@@ -50,6 +50,8 @@ export default class Particle {
          //particlesPool.unshift(_this);
        //}
     //});
+
+    _p.remove(_this.mesh);
   }
 }
 

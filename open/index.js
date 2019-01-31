@@ -43,27 +43,27 @@ function initFrame(type) {
   cvs.fillStyle = '#FFFFFF'
   cvs.font = 'bold 28px Arial'
   cvs.textAlign = 'center'
-  cvs.fillText(type === 1 ? '好友排行榜' : '群排行榜', 750 / 2, 60)
+  cvs.fillText(type === 1 ? '好友排行榜' : '群排行榜', 750 / 2, 40)
 
   // 排名列表外框
   cvs.fillStyle = '#302F30'
-  cvs.fillRect(80, 90, 750 - 80 * 2, 220)
+  cvs.fillRect(80, 65, 750 - 80 * 2, 200)
 
   // 排行榜提示
   cvs.fillStyle = '#8D8D8D'
   cvs.font = '20px Arial'
   cvs.textAlign = 'left'
-  cvs.fillText('每周一凌晨刷新', 100, 130)
+  cvs.fillText('每周一凌晨刷新', 100, 100)
 
   // 自己排名外框
   cvs.fillStyle = '#302F30'
-  cvs.fillRect(80, 350, 750 - 80 * 2, 60)
+  cvs.fillRect(80, 280, 750 - 80 * 2, 60)
 
   // 返回按钮
   let returnImage = wx.createImage()
   returnImage.src = 'images/return.png'
   returnImage.onload = () => {
-    cvs.drawImage(returnImage, 80, 1120, 100, 100)
+    cvs.drawImage(returnImage, 80, 350, 60, 60)
   }
 }
 
@@ -248,14 +248,20 @@ function drawRankingItems(y) {
 function getFriendRanking(key, openId) {
   // 初始化外框
   initFrame(1)
-  // 获取好友数据
+  // 从云存储获取好友数据
   wx.getFriendCloudStorage({
     keyList: [key],
     success: result => {
+
       if (result['data'].length !== 0) {
+        // 分组游戏数据
         let gameData = groupGameData(result['data'], key, openId)
+        
+        // 初始化排行榜详细
         initRankingItems(gameData['ranking'])
+        // 初始化自己的排行榜
         initOwnRanking(gameData['own'])
+
       } else {
         console.error('无数据记录')
       }

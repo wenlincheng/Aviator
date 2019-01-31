@@ -8,7 +8,7 @@ let GameParams = new Params()
 let instance
 
 /**
- * UI统一管理
+ * UI 统一管理
  */
 export default class UI {
   constructor(renderer) {
@@ -39,19 +39,25 @@ export default class UI {
 
     // 开放域canvas
     this.sharedCanvas = this.open.canvas
+
+
     // 缩放到像素比 使之高清
     this.sharedCanvas.width = GameParams.width * GameParams.ratio
     this.sharedCanvas.height = GameParams.height * GameParams.ratio
 
+    // 使用Three 绘制纹理贴图
     this.rankingTexture = new THREE.CanvasTexture(this.sharedCanvas)
     // TODO 关键代码
     this.rankingTexture.minFilter = this.rankingTexture.magFilter = THREE.LinearFilter
     this.rankingTexture.needsUpdate = true
 
+    // 创建一个平面
     let geometry = new THREE.PlaneGeometry(GameParams.width, GameParams.height)
 
+    // 创建材料
     let material = new THREE.MeshBasicMaterial({ map: this.rankingTexture, transparent: true })
 
+    // 生成 ranking
     this.ranking = new THREE.Mesh(geometry, material)
   }
 

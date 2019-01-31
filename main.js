@@ -20,7 +20,7 @@ export default class Main{
     // TODO 不加这一句打开可能会短暂黑屏
     // canvas.getContext('webgl')
 
-    // 渲染器  
+    // 渲染器  canvas 为 weapp-adapter.js 提供的 暴露为全局变量 上屏
     this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true })
     this.renderer.shadowMap.enabled = true
     this.renderer.setSize(GameParams.width, GameParams.height)
@@ -39,6 +39,7 @@ export default class Main{
 
     //this.Game = new Game(this.renderer)
     this.AviatorGame = new AviatorGame(this.renderer)
+
     this.UI = new UI(this.renderer)
 
     // 显示排行榜
