@@ -28,7 +28,7 @@ var fieldOfView;
 var aspectRatio;
 var nearPlane;
 var farPlane;
-//var renderer;
+var renderer;
 var container;
 var controls;
 
@@ -71,7 +71,7 @@ var music;
  * 
  */
 export default class AviatorGame {
-  constructor(renderer){
+  constructor(){
     
     // 各种颜色
     this.Colors = {
@@ -83,13 +83,10 @@ export default class AviatorGame {
       yellow: 0xf4ce93,
       blue: 0x68c3c0,
 
-    };
-    this.renderer = renderer;
+    }
 
     
-    this.init();
-
-    //window.addEventListener('load', init, false);
+    this.init()
 
   }
   // 游戏重置初始化参数
@@ -154,8 +151,7 @@ export default class AviatorGame {
       distanceForEnnemiesSpawn: 50,
 
       status: "playing",
-    };
-    //fieldLevel.innerHTML = Math.floor(game.level);
+    }
 
   }
   // 初始化three.js、屏幕鼠标事件
@@ -169,6 +165,7 @@ export default class AviatorGame {
     fieldOfView = 50;
     nearPlane = .1;
     farPlane = 10000;
+
     camera = new THREE.PerspectiveCamera(
       fieldOfView,
       aspectRatio,
@@ -182,20 +179,15 @@ export default class AviatorGame {
     camera.position.y = game.planeDefaultHeight;
     //camera.lookAt(new THREE.Vector3(0, 400, 0));
 
-    //renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    //renderer.setSize(WIDTH, HEIGHT);
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(WIDTH, HEIGHT);
 
-    //renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = true;
 
-    //renderer.setClearColor('rgb(135,206,250)', 1.0);
-    //renderer.setClearColor(0xffffff, 1.0);
-    //renderer.setClearColor('#428bca', 1.0);
-    //renderer.setClearColor('rgba(135,206,250)', 1.0); 
-    // 用于渲染
-    //container = document.getElementById('world');
-    //container.appendChild(renderer.domElement);
-
-    //window.addEventListener('resize', handleWindowResize, false);
+    renderer.setClearColor('rgb(135,206,250)', 1.0);
+    renderer.setClearColor(0xffffff, 1.0);
+    renderer.setClearColor('#428bca', 1.0);
+    renderer.setClearColor('rgba(135,206,250)', 1.0); 
 
     /*
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -412,7 +404,7 @@ export default class AviatorGame {
     sky.moveClouds(game, deltaTime);
     sea.moveWaves(deltaTime);
 
-    this.renderer.render(scene, camera);
+    renderer.render(scene, camera);
 
   }
 
@@ -489,20 +481,11 @@ export default class AviatorGame {
   // 显示重新开始
   showReplay() {
     
-    //replayMessage.style.display = "block";
-
-
-    // var offScreenCanvas = wx.createCanvas()
-    // var offContext = offScreenCanvas.getContext('2d')
-    // offContext.fillStyle = 'red'
-    // offContext.fillRect(0, 0, 100, 100)
-    // var screenContext = canvas.getContext('2d')
-    // screenContext.drawImage(offScreenCanvas, 0, 0)
 
   }
   // 隐藏重新开始
   hideReplay() {
-    //replayMessage.style.display = "none";
+
   }
 
   normalize(v, vmin, vmax, tmin, tmax) {
@@ -538,6 +521,17 @@ export default class AviatorGame {
     document.addEventListener('mouseup', this.handleMouseUp, false);
     document.addEventListener('touchend', this.handleTouchEnd, false);
 
-    //this.loop();
+    this.loop();
+  }
+  loop() {
+    // 关闭了渲染器的自动清除 这里需要手动清除
+    renderer.clear()
+
+    // 渲染游戏场景
+    this.render()
+    // 渲染UI
+    //this.UI.render()
+
+    window.requestAnimationFrame(this.loop.bind(this), canvas)
   }
 }
